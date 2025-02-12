@@ -14,9 +14,11 @@ import { computed, ref } from 'vue';
 let data = Array.from({length:100},(_,i)=>i)
 
 const maxCount = 9
-// const tottalheight = 50*maxCount
+// 起始索引
 const startIndex = ref(0)
+// 结束索引
 const endIndex = ref(0)
+// 滚动条距离其顶部的距离
 const scrollTop = ref(0)
 
 
