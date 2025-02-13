@@ -1,7 +1,7 @@
 <template>
     <div class="container" >
         <div class="list-scroll" @scroll="handeScrool">
-            <div class="list" :style="{transform:`translateY(${offset}px)`}">
+            <div class="list" :style="{transform:`translateY(${offset}px)`,height:`${data.length*50-startIndex*50}px`}">
                 <div class="list-item" v-for="item in randarList" :key="item">{{ 'item'+item }}</div>
             </div>
             
@@ -11,7 +11,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 
-let data = Array.from({length:100},(_,i)=>i)
+let data = Array.from({length:20},(_,i)=>i)
 
 const maxCount = 9
 // 起始索引
@@ -31,8 +31,11 @@ const randarList = computed(()=>{
     return data.slice(startIndex.value,endIndex.value==0?maxCount:endIndex.value)
 })
 
-
-
+const addData = ()=>{
+    data.push(...Array.from({length:10},(_,i)=>i+data.length))
+    
+    
+}
 
 
 const handeScrool = (e)=>{
@@ -40,6 +43,11 @@ const handeScrool = (e)=>{
    // e.target.scrollTop 滚动条距离其顶部的距离（以px为单位）
    scrollTop.value = e.target.scrollTop
    startIndex.value = Math.floor(scrollTop.value/50)
+   console.log(e.target.scrollTop ,scrollTop.value);
+   
+   if(endIndex.value==data.length-2){
+    addData()
+   }
    endIndex.value = startIndex.value+maxCount
     
 }
@@ -62,7 +70,6 @@ const handeScrool = (e)=>{
             overflow: auto;
             .list{
             width: 100%;
-            height: 100%;
             .list-item{
                 width: 100%;
                 height: 50px; 
